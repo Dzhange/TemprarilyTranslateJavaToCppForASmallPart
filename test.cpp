@@ -29,9 +29,9 @@ int main(){
         count++;
     }
     infile.close();
-    for (int j = 0;j<sizeof(output_tensor)/sizeof(output_tensor[0]);j++){
-        cout<<output_tensor[j]<<endl;
-    }
+    // for (int j = 0;j<sizeof(output_tensor)/sizeof(output_tensor[0]);j++){
+    //     cout<<output_tensor[j]<<endl;
+    // }
     float NMS_Threshold = static_cast<float>(0.15);
 float Local_PAF_Threshold = static_cast<float>(0.2);
 int PAF_Count_Threshold = 5;
@@ -152,6 +152,7 @@ coords.resize(HeatMapCount-1);
                         if (max_value == output_tensor[(HeatMapCount + PafMapCount) * MapWidth * j + (HeatMapCount + PafMapCount) * k + i])
                         {   
                             // cout<< "test"<<endl;
+                          cout<<coord[0]<<"  "<<coord[1]<<endl;
                             coords[i].push_back(coord);
                             // cout<< "max value" << endl;
                         }
@@ -274,8 +275,10 @@ cout<< "begin" <<endl;
 
         typedef struct _
         {   
-            std::vector<std::vector<int>> parts_coords;
-            // int parts_coords[18][2];
+            // std::vector<std::vector<int>> parts_coords;
+            // parts_coords.reserve(18);
+            // parts_coords.resize(18);
+            int parts_coords[18][2];
             int part_count=0;
             int coords_index_set[18];
             bool coords_index_asigned[18];
@@ -293,13 +296,14 @@ cout<< "begin" <<endl;
                 int p2 = CocoPairs[i][1];
                 int ip1 = pairs_final[i][j][0];
                 int ip2 = pairs_final[i][j][1];
+                cout<< "Humans size " <<humans.size()<<endl;
                 for (int k = 0;k < humans.size();k++)
                 {
                     Human human = humans[k];
                     if ((ip1 == human.coords_index_set[p1] && human.coords_index_asigned[p1]) || (ip2 == human.coords_index_set[p2] && human.coords_index_asigned[p2]))
                     {
-                        human.parts_coords[p1] = coords[p1][ip1];
-                        human.parts_coords[p2] = coords[p2][ip2];
+                        // human.parts_coords[p1] = coords[p1][ip1];
+                        // human.parts_coords[p2] = coords[p2][ip2];
                         human.coords_index_set[p1] = ip1;
                         human.coords_index_set[p2] = ip2;
                         human.coords_index_asigned[p1] = true;
@@ -311,8 +315,11 @@ cout<< "begin" <<endl;
                 if (!merged)
                 {
                     Human human;
-                    human.parts_coords[p1] = coords[p1][ip1];
-                    human.parts_coords[p2] = coords[p2][ip2];
+                    cout<<"human before"<<endl;
+                    cout<<"test " << coords[p1][ip1][0] << endl;
+                    // human.parts_coords[p1] = coords[p1][ip1];
+                    // human.parts_coords[p2] = coords[p2][ip2];
+                    cout<<"human here"<<endl;
                     human.coords_index_set[p1] = ip1;
                     human.coords_index_set[p2] = ip2;
                     human.coords_index_asigned[p1] = true;
@@ -322,7 +329,7 @@ cout<< "begin" <<endl;
             }
 }
 
-cout<<'seg2'<<endl;
+cout<<"seg"<<endl;
         // 去掉部位数量过少的人
         for (int i = 0;i < humans.size();i++)
         {
@@ -352,8 +359,8 @@ for (int i = 0;i < humans_final.size();i++)
                 {
                     final_pairs[j][0] = x1;
                     final_pairs[j][1] = y1;
-                    cout<< x1 << endl;
-                    cout<< y1 << endl;
+                    // cout<< x1 << endl;
+                    // cout<< y1 << endl;
                 }
             }
         }
@@ -365,9 +372,9 @@ for (int i = 0;i < humans_final.size();i++)
 // class Human
 // {
 // public:
-// 	int parts_coords[18][2];
+//  int parts_coords[18][2];
 //             // not important
-//    	int part_count=0;
+//      int part_count=0;
 //     int coords_index_set[18];
 //     bool coords_index_asigned[18];
 // };
@@ -376,15 +383,15 @@ for (int i = 0;i < humans_final.size();i++)
 // std::vector<human> humans_final;
 
 // for(int i = 0; i < MaxPairCount;i++){
-// 	for(int j=0;j<pairs_final[i].size();j++){
-// 		bool merged = false;
-// 		int p1=CocoPairs[i][0];
+//  for(int j=0;j<pairs_final[i].size();j++){
+//    bool merged = false;
+//    int p1=CocoPairs[i][0];
 //         int p2=CocoPairs[i][1];
 //         int ip1=pairs_final[i][j][0];
 //         int ip2=pairs_final[i][j][1];
 //         for(int k=0;k<humans.size();k++){
-//         	Human human = humans[k];
-//         	if((ip1 == human.coords_index_set[p1] && human.coords_index_asigned[p1]) || (ip2 == human.coords_index_set[p2] && human.coords_index_asigned[p2]))
+//          Human human = humans[k];
+//          if((ip1 == human.coords_index_set[p1] && human.coords_index_asigned[p1]) || (ip2 == human.coords_index_set[p2] && human.coords_index_asigned[p2]))
 //             {
 //                 human.parts_coords[p1]=coords[p1].[ip1];
 //                 human.parts_coords[p2]=coords[p2].[ip2];
@@ -397,7 +404,7 @@ for (int i = 0;i < humans_final.size();i++)
 //             }
 //         }
 //         if(!merged){
-//         	Human human=new Human();
+//          Human human=new Human();
 //             human.parts_coords[p1]=coords[p1].[ip1];
 //             human.parts_coords[p2]=coords[p2].[ip2];
 //             human.coords_index_set[p1]=ip1;
@@ -406,7 +413,7 @@ for (int i = 0;i < humans_final.size();i++)
 //             human.coords_index_asigned[p2]=true;
 //             humans.push_back(human);
 //         }
-// 	}
+//  }
 // }
 
 // for(int i=0;i<humans.size();i++)
