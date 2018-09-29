@@ -302,8 +302,10 @@ cout<< "begin" <<endl;
                     Human human = humans[k];
                     if ((ip1 == human.coords_index_set[p1] && human.coords_index_asigned[p1]) || (ip2 == human.coords_index_set[p2] && human.coords_index_asigned[p2]))
                     {
-                        // human.parts_coords[p1] = coords[p1][ip1];
-                        // human.parts_coords[p2] = coords[p2][ip2];
+                        human.parts_coords[p1][0] = coords[p1][ip1][0];
+                        human.parts_coords[p2][0] = coords[p2][ip2][0];
+                        human.parts_coords[p1][1] = coords[p1][ip1][1];
+                        human.parts_coords[p2][1] = coords[p2][ip2][1];
                         human.coords_index_set[p1] = ip1;
                         human.coords_index_set[p2] = ip2;
                         human.coords_index_asigned[p1] = true;
@@ -316,9 +318,11 @@ cout<< "begin" <<endl;
                 {
                     Human human;
                     cout<<"human before"<<endl;
-                    cout<<"test " << coords[p1][ip1][0] << endl;
-                    // human.parts_coords[p1] = coords[p1][ip1];
-                    // human.parts_coords[p2] = coords[p2][ip2];
+                    // cout<<"test " << coords[p1][ip1][0] << endl;
+                    human.parts_coords[p1][0] = coords[p1][ip1][0];
+                    human.parts_coords[p2][0] = coords[p2][ip2][0];
+                    human.parts_coords[p1][1] = coords[p1][ip1][1];
+                    human.parts_coords[p2][1] = coords[p2][ip2][1];
                     cout<<"human here"<<endl;
                     human.coords_index_set[p1] = ip1;
                     human.coords_index_set[p2] = ip2;
@@ -353,9 +357,10 @@ for (int i = 0;i < humans_final.size();i++)
             // has_people = true;
             for (int j = 0;j < HeatMapCount - 1;j++)
             {
+            // cout<< "HeatMapCount" << j<<endl;
                 int x1 = humans_final[i].parts_coords[j][0];
                 int y1 = humans_final[i].parts_coords[j][1];
-                if (x1 != 0)
+                if (x1 <100&&x1>0)
                 {
                     final_pairs[j][0] = x1;
                     final_pairs[j][1] = y1;
@@ -364,6 +369,11 @@ for (int i = 0;i < humans_final.size();i++)
                 }
             }
         }
+            for(int j =0;j<HeatMapCount-1;j++){
+              cout<< "HeatMapCount" << j <<endl;
+              cout<< final_pairs[j][0]<<endl;
+              cout<< final_pairs[j][1]<<endl;
+            }
 
     return 0;
 }
