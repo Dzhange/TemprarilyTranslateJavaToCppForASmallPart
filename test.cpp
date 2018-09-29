@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include <math.h>
-#include <cmath>
 #include <iterator>
 using namespace std;
 class RectangularVectors
@@ -22,95 +21,94 @@ public:
     }
 };
 int main(){
-    
-    float arr[57*46*46] = {0};
+    float output_tensor[57*46*46] = {0};
     ifstream infile("out_tensor");
     int count = 0;
     while(!infile.eof()){
-        infile>>arr[count];
+        infile>>output_tensor[count];
         count++;
     }
     infile.close();
-    for (int j = 0;j<sizeof(arr)/sizeof(arr[0]);j++){
-        cout<<arr[j]<<endl;
+    for (int j = 0;j<sizeof(output_tensor)/sizeof(output_tensor[0]);j++){
+        cout<<output_tensor[j]<<endl;
     }
     float NMS_Threshold = static_cast<float>(0.15);
-    float Local_PAF_Threshold = static_cast<float>(0.2);
-    int PAF_Count_Threshold = 5;
+float Local_PAF_Threshold = static_cast<float>(0.2);
+int PAF_Count_Threshold = 5;
 int Part_Count_Threshold = 4;
-    float Part_Score_Threshold = static_cast<float>(4.5);
-    int MapHeight = 46;
-    int MapWidth = 46;
-    int HeatMapCount = 19;
-    int MaxPairCount = 19;
-    int PafMapCount = 38;
-    int MaximumFilterSize = 5;
-    int NumPafIter = 10;
-    std::vector<std::vector<int>> CocoPairs =
-    {
-        std::vector<int> {1, 2},
-        std::vector<int> {1, 5},
-        std::vector<int> {2, 3},
-        std::vector<int> {3, 4},
-        std::vector<int> {5, 6},
-        std::vector<int> {6, 7},
-        std::vector<int> {1, 8},
-        std::vector<int> {8, 9},
-        std::vector<int> {9, 10},
-        std::vector<int> {1, 11},
-        std::vector<int> {11, 12},
-        std::vector<int> {12, 13},
-        std::vector<int> {1, 0},
-        std::vector<int> {0, 14},
-        std::vector<int> {14, 16},
-        std::vector<int> {0, 15},
-        std::vector<int> {15, 17},
-        std::vector<int> {2, 16},
-        std::vector<int> {5, 17}
-    };
-    std::vector<std::vector<int>> CocoPairsNetwork =
-    {
-        std::vector<int> {12, 13},
-        std::vector<int> {20, 21},
-        std::vector<int> {14, 15},
-        std::vector<int> {16, 17},
-        std::vector<int> {22, 23},
-        std::vector<int> {24, 25},
-        std::vector<int> {0, 1},
-        std::vector<int> {2, 3},
-        std::vector<int> {4, 5},
-        std::vector<int> {6, 7},
-        std::vector<int> {8, 9},
-        std::vector<int> {10, 11},
-        std::vector<int> {28, 29},
-        std::vector<int> {30, 31},
-        std::vector<int> {34, 35},
-        std::vector<int> {32, 33},
-        std::vector<int> {36, 37},
-        std::vector<int> {18, 19},
-        std::vector<int> {26, 27}
-    };
-    int inputSize_W = 368;
-    int inputSize_H = 368;
-    int imageMean = 128;
-    float imageStd = 128.0f;
-    std::vector<int> raw_input_image;
-    std::vector<float> rgb_input_image;
-    std::vector<float> output_tensor;
-    std::vector<std::wstring> outputNames;
+      float Part_Score_Threshold = static_cast<float>(4.5);
+      int MapHeight = 46;
+      int MapWidth = 46;
+      int HeatMapCount = 19;
+      int MaxPairCount = 19;
+      int PafMapCount = 38;
+      int MaximumFilterSize = 5;
+      int NumPafIter = 10;
+      std::vector<std::vector<int>> CocoPairs =
+      {
+          std::vector<int> {1, 2},
+          std::vector<int> {1, 5},
+          std::vector<int> {2, 3},
+          std::vector<int> {3, 4},
+          std::vector<int> {5, 6},
+          std::vector<int> {6, 7},
+          std::vector<int> {1, 8},
+          std::vector<int> {8, 9},
+          std::vector<int> {9, 10},
+          std::vector<int> {1, 11},
+          std::vector<int> {11, 12},
+          std::vector<int> {12, 13},
+          std::vector<int> {1, 0},
+          std::vector<int> {0, 14},
+          std::vector<int> {14, 16},
+          std::vector<int> {0, 15},
+          std::vector<int> {15, 17},
+          std::vector<int> {2, 16},
+          std::vector<int> {5, 17}
+      };
+      std::vector<std::vector<int>> CocoPairsNetwork =
+      {
+          std::vector<int> {12, 13},
+          std::vector<int> {20, 21},
+          std::vector<int> {14, 15},
+          std::vector<int> {16, 17},
+          std::vector<int> {22, 23},
+          std::vector<int> {24, 25},
+          std::vector<int> {0, 1},
+          std::vector<int> {2, 3},
+          std::vector<int> {4, 5},
+          std::vector<int> {6, 7},
+          std::vector<int> {8, 9},
+          std::vector<int> {10, 11},
+          std::vector<int> {28, 29},
+          std::vector<int> {30, 31},
+          std::vector<int> {34, 35},
+          std::vector<int> {32, 33},
+          std::vector<int> {36, 37},
+          std::vector<int> {18, 19},
+          std::vector<int> {26, 27}
+      };
+     int inputSize_W = 368;
+     int inputSize_H = 368;
+     int imageMean = 128;
+     float imageStd = 128.0f;
+     std::vector<int> raw_input_image;
+     std::vector<float> rgb_input_image;
+     // std::vector<float> output_tensor;
+     std::vector<std::wstring> outputNames;
 //JAVA TO C++ CONVERTER NOTE: The following call to the 'RectangularVectors' helper class reproduces the rectangular array initialization that is automatic in Java:
 //ORIGINAL LINE: int final_pairs[][] = new int[18][2];
     std::vector<std::vector<int>> final_pairs = RectangularVectors::ReturnRectangularIntVector(18, 2);
 
 //----------------------------------------------------------------------------------------
-//  Copyright  2007 - 2018 Tangible Software Solutions, Inc.
+//  Copyright © 2007 - 2018 Tangible Software Solutions, Inc.
 //  This class can be used by anyone provided that the copyright notice remains intact.
 //
 //  This class includes methods to convert multidimensional arrays to C++ vectors.
 //----------------------------------------------------------------------------------------
 
 
-cout<< "begin" << endl;
+// cout<< "begin" << endl;
 
 std::vector<std::vector<std::vector<int>>> coords;
 coords.reserve(HeatMapCount-1);
@@ -119,16 +117,15 @@ coords.resize(HeatMapCount-1);
         // 用最大滤波和非极大值抑制来过滤重复的点，尽量使得某一个人的某一个部位只会被取到一次
         for (int i = 0; i < (HeatMapCount - 1); i++)
         {
-          cout<<"before coords[i]"<<endl;
+          // cout<<"before coords[i]"<<endl;
             coords[i] = std::vector<std::vector<int>>();
-            cout<<"after"<<endl;
+            // cout<<"after"<<endl;
             for (int j = 0; j < MapHeight; j++)
             {
                 for (int k = 0; k < MapWidth; k++)
                 {
-                    cout << "i = " << i << "j = " << j <<endl; 
                     std::vector<int> coord = {j, k};
-                    cout<< j << endl;
+                    // cout<< j << endl;
                     float max_value = 0;
                     for (int dj = -(MaximumFilterSize - 1) / 2; dj < (MaximumFilterSize + 1) / 2; dj++)
                     {
@@ -151,26 +148,31 @@ coords.resize(HeatMapCount-1);
                     }
                     if (max_value > NMS_Threshold)
                     {
+                      // cout<<"here"<<endl;
                         if (max_value == output_tensor[(HeatMapCount + PafMapCount) * MapWidth * j + (HeatMapCount + PafMapCount) * k + i])
                         {   
-                            cout<< "test"<<endl;
+                            // cout<< "test"<<endl;
                             coords[i].push_back(coord);
-                            cout<< "max value" << endl;
+                            // cout<< "max value" << endl;
                         }
                     }
                 }
             }
         }
-cout<< "end" <<endl;
+cout<< "begin" <<endl;
         // 用paf算分数，并用贪心法来剔除不合理或者重复的连线
         std::vector<std::vector<std::vector<int>>> pairs;
         pairs.reserve(MaxPairCount);
+        pairs.resize(MaxPairCount);
         std::vector<std::vector<std::vector<int>>> pairs_final ;
         pairs_final.reserve(MaxPairCount);
+        pairs_final.resize(MaxPairCount);
         std::vector<std::vector<float>> pairs_scores;
         pairs_scores.reserve(MaxPairCount);
+        pairs_scores.resize(MaxPairCount);
         std::vector<std::vector<float>> pairs_scores_final ;
         pairs_scores_final.reserve(MaxPairCount);
+        pairs_scores_final.resize(MaxPairCount);
         for (int i = 0; i < MaxPairCount; i++)
         {
             pairs[i] = std::vector<std::vector<int>>();
@@ -250,6 +252,7 @@ cout<< "end" <<endl;
                 }
                 if (!conflict)
                 {
+                  cout<<"here"<<endl;
                     pairs_final[i].push_back(pairs[i][m]);
                     pairs_scores_final[i].push_back(pairs_scores[i][m]);
                     part_set.push_back(pairs[i][m][0]);
@@ -278,12 +281,13 @@ cout<< "end" <<endl;
             bool coords_index_asigned[18];
         }Human;
         cout<< "ok" << endl;
-        std::vector<Human*> humans;
-        std::vector<Human*> humans_final;
+        std::vector<Human> humans;
+        std::vector<Human> humans_final;
         for (int i = 0;i < MaxPairCount;i++)
 {
+    cout<<"size "<<pairs_final[i].size()<<endl;
             for (int j = 0;j < pairs_final[i].size();j++)
-            {
+            { 
                 bool merged = false;
                 int p1 = CocoPairs[i][0];
                 int p2 = CocoPairs[i][1];
@@ -291,41 +295,41 @@ cout<< "end" <<endl;
                 int ip2 = pairs_final[i][j][1];
                 for (int k = 0;k < humans.size();k++)
                 {
-                    Human *human = humans[k];
-                    if ((ip1 == human->coords_index_set[p1] && human->coords_index_asigned[p1]) || (ip2 == human->coords_index_set[p2] && human->coords_index_asigned[p2]))
+                    Human human = humans[k];
+                    if ((ip1 == human.coords_index_set[p1] && human.coords_index_asigned[p1]) || (ip2 == human.coords_index_set[p2] && human.coords_index_asigned[p2]))
                     {
-                        human->parts_coords[p1] = coords[p1][ip1];
-                        human->parts_coords[p2] = coords[p2][ip2];
-                        human->coords_index_set[p1] = ip1;
-                        human->coords_index_set[p2] = ip2;
-                        human->coords_index_asigned[p1] = true;
-                        human->coords_index_asigned[p2] = true;
+                        human.parts_coords[p1] = coords[p1][ip1];
+                        human.parts_coords[p2] = coords[p2][ip2];
+                        human.coords_index_set[p1] = ip1;
+                        human.coords_index_set[p2] = ip2;
+                        human.coords_index_asigned[p1] = true;
+                        human.coords_index_asigned[p2] = true;
                         merged = true;
                         break;
                     }
                 }
                 if (!merged)
                 {
-                    Human *human = new Human();
-                    human->parts_coords[p1] = coords[p1][ip1];
-                    human->parts_coords[p2] = coords[p2][ip2];
-                    human->coords_index_set[p1] = ip1;
-                    human->coords_index_set[p2] = ip2;
-                    human->coords_index_asigned[p1] = true;
-                    human->coords_index_asigned[p2] = true;
+                    Human human;
+                    human.parts_coords[p1] = coords[p1][ip1];
+                    human.parts_coords[p2] = coords[p2][ip2];
+                    human.coords_index_set[p1] = ip1;
+                    human.coords_index_set[p2] = ip2;
+                    human.coords_index_asigned[p1] = true;
+                    human.coords_index_asigned[p2] = true;
                     humans.push_back(human);
                 }
             }
 }
 
-
+cout<<'seg2'<<endl;
         // 去掉部位数量过少的人
         for (int i = 0;i < humans.size();i++)
         {
             int human_part_count = 0;
             for (int j = 0;j < HeatMapCount - 1;j++)
             {
-                if (humans[i]->coords_index_asigned[j])
+                if (humans[i].coords_index_asigned[j])
                 {
                     human_part_count += 1;
                 }
@@ -342,8 +346,8 @@ for (int i = 0;i < humans_final.size();i++)
             // has_people = true;
             for (int j = 0;j < HeatMapCount - 1;j++)
             {
-                int x1 = humans_final[i]->parts_coords[j][0];
-                int y1 = humans_final[i]->parts_coords[j][1];
+                int x1 = humans_final[i].parts_coords[j][0];
+                int y1 = humans_final[i].parts_coords[j][1];
                 if (x1 != 0)
                 {
                     final_pairs[j][0] = x1;
